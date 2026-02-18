@@ -125,7 +125,8 @@
         </section>
     </main>
 
-    <footer class="container footer">
+    <!-- src/partials/footer.html -->
+<footer class="container footer">
   <div class="footer-top">
     <!-- Left: brand / meta -->
     <div class="footer-brandblock">
@@ -160,7 +161,25 @@
       <div class="footer-col">
         <div class="footer-coltitle">Contact</div>
         <div class="footer-collinks">
-          <a href="#" id="footerWhatsAppLink" rel="noopener">WhatsApp us</a>
+          <a href="#" id="footerWhatsAppLink" rel="noopener">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+            <span style="margin-left:8px;">WhatsApp us</span>
+          </a>
+
+          <a href="#" id="footerInstagramLink" rel="noopener" target="_blank">
+            <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+            <span style="margin-left:8px;">Instagram</span>
+          </a>
+
+          <a href="#" id="footerTikTokLink" rel="noopener" target="_blank">
+            <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+            <span style="margin-left:8px;">TikTok</span>
+          </a>
+
+          <a href="#" id="footerFacebookLink" rel="noopener" target="_blank">
+            <i class="fa-brands fa-facebook" aria-hidden="true"></i>
+            <span style="margin-left:8px;">Facebook</span>
+          </a>
         </div>
       </div>
     </div>
@@ -175,12 +194,24 @@
 <script type="module">
   import { SHOP } from "./js/data.js";
 
-  const a = document.querySelector("#footerWhatsAppLink");
-  if (a) {
-    a.href = `https://wa.me/${SHOP.whatsappNumber}`;
-    a.target = "_blank";
+  // WhatsApp (existing)
+  const wa = document.querySelector("#footerWhatsAppLink");
+  if (wa) {
+    wa.href = `https://wa.me/${SHOP.whatsappNumber}`;
+    wa.target = "_blank";
   }
 
+  // Socials (replace with real URLs when ready)
+  const ig = document.querySelector("#footerInstagramLink");
+  if (ig) ig.href = "https://www.instagram.com/";
+
+  const tt = document.querySelector("#footerTikTokLink");
+  if (tt) tt.href = "https://www.tiktok.com/";
+
+  const fb = document.querySelector("#footerFacebookLink");
+  if (fb) fb.href = "https://www.facebook.com/";
+
+  // Year
   const y = document.querySelector("#footerYear");
   if (y) y.textContent = String(new Date().getFullYear());
 </script>
