@@ -2,7 +2,7 @@
 
 export const SHOP = {
     name: "Sister Blooms",
-    whatsappNumber: "27781234567", // SA format: country code + number, no + or spaces
+    whatsappNumber: "27682158780", // SA format: country code + number, no + or spaces
     currency: "ZAR",
     city: "Cape Town",
     areas: [

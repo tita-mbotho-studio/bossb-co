@@ -175,11 +175,6 @@
             <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
             <span style="margin-left:8px;">TikTok</span>
           </a>
-
-          <a href="#" id="footerFacebookLink" rel="noopener" target="_blank">
-            <i class="fa-brands fa-facebook" aria-hidden="true"></i>
-            <span style="margin-left:8px;">Facebook</span>
-          </a>
         </div>
       </div>
     </div>
@@ -194,22 +189,18 @@
 <script type="module">
   import { SHOP } from "./js/data.js";
 
-  // WhatsApp (existing)
+  // WhatsApp
   const wa = document.querySelector("#footerWhatsAppLink");
   if (wa) {
     wa.href = `https://wa.me/${SHOP.whatsappNumber}`;
     wa.target = "_blank";
   }
 
-  // Socials (replace with real URLs when ready)
   const ig = document.querySelector("#footerInstagramLink");
-  if (ig) ig.href = "https://www.instagram.com/";
+  if (ig) ig.href = "https://www.instagram.com/bossb_flowerco?igsh=dWFzdXVjOGF6dWl1&utm_source=qr";
 
   const tt = document.querySelector("#footerTikTokLink");
-  if (tt) tt.href = "https://www.tiktok.com/";
-
-  const fb = document.querySelector("#footerFacebookLink");
-  if (fb) fb.href = "https://www.facebook.com/";
+  if (tt) tt.href = "https://www.tiktok.com/@bossbco0?_r=1&_t=ZS-9426DxG96UX";
 
   // Year
   const y = document.querySelector("#footerYear");
