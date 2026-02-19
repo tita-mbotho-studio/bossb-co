@@ -6,7 +6,7 @@ export const SHOP = {
     currency: "ZAR",
     city: "Johannesburg",
 
-    // Delivery areas (from client message)
+    // Updated delivery areas from client
     areas: [
         // Johannesburg & Surrounds
         "Sandton",
@@ -40,14 +40,14 @@ export const SHOP = {
         "Vanderbijlpark",
         "Meyerton",
 
-        // Limpopo: Capricorn / Polokwane Area
+        // Limpopo - Capricorn / Polokwane
         "Polokwane",
         "Seshego",
         "Mankweng",
         "Lebowakgomo",
         "Zebediela",
 
-        // Limpopo: Sekhukhune District
+        // Limpopo - Sekhukhune District
         "Burgersfort",
         "Groblersdal",
         "Marble Hall",
@@ -56,9 +56,10 @@ export const SHOP = {
     ],
 
     deliveryNotes: [
-        "Delivery availability and fees depend on distance (confirmed on WhatsApp).",
-        "Same-day delivery may be available depending on stock and route capacity.",
-        "If your area isn't listed, WhatsApp us—delivery may still be possible depending on availability.",
+        "Same-day delivery may be available depending on stock and your area.",
+        "Other areas: 24-hour notice recommended.",
+        "Delivery fee depends on distance (confirmed on WhatsApp).",
+        "If your area is not listed, message us on WhatsApp and we will advise based on availability.",
     ],
 };
 
@@ -71,7 +72,7 @@ export function slugifyColor(value) {
     return String(value || "")
         .trim()
         .toLowerCase()
-        .replace(/[’']/g, "") // remove apostrophes
+        .replace(/[']/g, "") // remove apostrophes
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
 }
@@ -92,11 +93,11 @@ export function getBouquetImage(bouquet, color) {
         return bouquet.colorImages[selected];
     }
 
-    // 2) try slug-based guess (legacy: used when imageBase points to local folder)
-    // NOTE: We are using URLs now, so imageBase is intentionally blank.
+    // 2) try slug-based guess (legacy: used when imageBase points to folder)
+    // NOTE: If you ever want a consistent naming strategy, you can set imageBase.
     if (selected && bouquet.imageBase) {
         const slug = slugifyColor(selected);
-        if (slug) return `${bouquet.imageBase}/${slug}.svg`;
+        if (slug) return `${bouquet.imageBase}/${slug}.jpg`;
     }
 
     // 3) default
@@ -104,37 +105,116 @@ export function getBouquetImage(bouquet, color) {
 }
 
 /**
- * Pexels image URLs (used everywhere now).
- * Keep them centralized so swapping later is easy.
+ * Replace placeholders with YOUR hosted images (ImageKit / Cloudinary / etc).
+ * URLs must be public and stable.
+ *
+ * EXAMPLE FORMAT (ImageKit):
+ * https://ik.imagekit.io/<imagekit_id>/bossb-co/bouquets/blush-roses-mini/blush-pink.jpg
  */
-const PEXELS = {
+const IMAGES = {
+    // --- Bouquet 1: Blush Roses (Mini) ---
     blushPink:
-        "https://images.pexels.com/photos/931163/pexels-photo-931163.jpeg?cs=srgb&dl=pexels-secret-garden-333350-931163.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/blush-roses-mini/blush-pink.jpg",
     softWhite:
-        "https://images.pexels.com/photos/2879830/pexels-photo-2879830.jpeg?cs=srgb&dl=pexels-secret-garden-333350-2879830.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/blush-roses-mini/white.jpg",
 
+    // --- Bouquet 2: Classic Red Roses ---
     redRoses:
-        "https://images.pexels.com/photos/931158/pexels-photo-931158.jpeg?cs=srgb&dl=pexels-secret-garden-333350-931158.jpg&fm=jpg",
-    deepRed:
-        "https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg?cs=srgb&dl=pexels-secret-garden-333350-931179.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/red-roses-classic/red.jpg",
 
+    // --- Bouquet 3: Pastel Mix Wrap ---
     pastelWrap:
-        "https://images.pexels.com/photos/2879827/pexels-photo-2879827.jpeg?cs=srgb&dl=pexels-secret-garden-333350-2879827.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/pastel-mix-wrap/pastel.jpg",
     mixedPastel:
-        "https://images.pexels.com/photos/7666495/pexels-photo-7666495.jpeg?cs=srgb&dl=pexels-tara-winstead-7666495.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/pastel-mix-wrap/mixed.jpg",
 
+    // --- Bouquet 4: Sunshine Gerberas ---
     sunshineYellow:
-        "https://images.pexels.com/photos/2879827/pexels-photo-2879827.jpeg?cs=srgb&dl=pexels-secret-garden-333350-2879827.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/sunshine-gerberas/yellow.jpg",
     warmOrange:
-        "https://images.pexels.com/photos/931163/pexels-photo-931163.jpeg?cs=srgb&dl=pexels-secret-garden-333350-931163.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/sunshine-gerberas/orange.jpg",
     brightMixed:
-        "https://images.pexels.com/photos/931158/pexels-photo-931158.jpeg?cs=srgb&dl=pexels-secret-garden-333350-931158.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/sunshine-gerberas/mixed.jpg",
 
+    // --- Bouquet 5: White Lilies Elegance ---
     whiteLilies:
-        "https://images.pexels.com/photos/2879830/pexels-photo-2879830.jpeg?cs=srgb&dl=pexels-secret-garden-333350-2879830.jpg&fm=jpg",
+        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/white-lilies-elegance/white.jpg",
+
+    // --- Serenity Wreath Collection (Funeral Wreaths) ---
+    // Replace these with your actual product photos
+    // --- Serenity Wreath Collection ---
+    eternalHonourWreath:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_a.jpeg",
+
+    gentleGoodbyeWreath:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_b.jpeg",
+
 };
 
 export const BOUQUETS = [
+    // ==========================
+    // SERENITY WREATH COLLECTION
+    // NOTE: A MUST be lowest price -> A = R350-R900, B = R400-R1800
+    // ==========================
+
+    {
+        id: "serenity-wreath-a-gentle-goodbye",
+        name: "Gentle Goodbye Wreath",
+        category: "Wreaths",
+        collection: "Serenity Wreath Collection",
+        shortDescription:
+            "A peaceful funeral wreath designed to honour life with grace. Custom colours, flowers, and ribbon message available on request.",
+        priceMin: 350, // A = lowest
+        priceMax: 900,
+        sizes: ["Small", "Standard", "Large"],
+        colors: ["Classic White", "Soft Pastel", "Custom"],
+        occasions: ["Sympathy", "Funeral", "Memorial"],
+        addons: ["Ribbon Message", "Family Name", "Faith Element (on request)"],
+        leadTimeHours: 24,
+
+        image: IMAGES.gentleGoodbyeWreath,
+        imageBase: "",
+        defaultImage: IMAGES.gentleGoodbyeWreath,
+        colorImages: {
+            "Classic White": IMAGES.gentleGoodbyeWreath,
+            "Soft Pastel": IMAGES.gentleGoodbyeWreath,
+            Custom: IMAGES.gentleGoodbyeWreath,
+        },
+
+        featured: false,
+    },
+
+    {
+        id: "serenity-wreath-b-eternal-honour",
+        name: "Eternal Honour Wreath",
+        category: "Wreaths",
+        collection: "Serenity Wreath Collection",
+        shortDescription:
+            "A premium handcrafted wreath with fuller blooms and a luxury finish. Custom palette, flower selection, and ribbon message available on request.",
+        priceMin: 400,
+        priceMax: 1800,
+        sizes: ["Small", "Standard", "Large"],
+        colors: ["Classic White", "Soft Pastel", "Custom"],
+        occasions: ["Sympathy", "Funeral", "Memorial"],
+        addons: ["Ribbon Message", "Family Name", "Faith Element (on request)"],
+        leadTimeHours: 24,
+
+        image: IMAGES.eternalHonourWreath,
+        imageBase: "",
+        defaultImage: IMAGES.eternalHonourWreath,
+        colorImages: {
+            "Classic White": IMAGES.eternalHonourWreath,
+            "Soft Pastel": IMAGES.eternalHonourWreath,
+            Custom: IMAGES.eternalHonourWreath,
+        },
+
+        featured: false,
+    },
+
+    // ==========================
+    // EXISTING BOUQUETS
+    // ==========================
+
     {
         id: "blush-roses-mini",
         name: "Blush Roses (Mini)",
@@ -149,18 +229,19 @@ export const BOUQUETS = [
         leadTimeHours: 6,
 
         // Legacy (keep for compatibility)
-        image: PEXELS.blushPink,
+        image: IMAGES.blushPink,
 
-        // New image system (now URLs)
+        // New image system (URLs)
         imageBase: "",
-        defaultImage: PEXELS.blushPink,
+        defaultImage: IMAGES.blushPink,
         colorImages: {
-            "Blush Pink": PEXELS.blushPink,
-            White: PEXELS.softWhite,
+            "Blush Pink": IMAGES.blushPink,
+            White: IMAGES.softWhite,
         },
 
         featured: true,
     },
+
     {
         id: "red-roses-classic",
         name: "Classic Red Roses",
@@ -174,16 +255,17 @@ export const BOUQUETS = [
         addons: ["Chocolates", "Card Note", "Balloon"],
         leadTimeHours: 12,
 
-        image: PEXELS.redRoses,
+        image: IMAGES.redRoses,
 
         imageBase: "",
-        defaultImage: PEXELS.redRoses,
+        defaultImage: IMAGES.redRoses,
         colorImages: {
-            Red: PEXELS.deepRed,
+            Red: IMAGES.redRoses,
         },
 
         featured: true,
     },
+
     {
         id: "pastel-mix-wrap",
         name: "Pastel Mix Wrap",
@@ -197,17 +279,18 @@ export const BOUQUETS = [
         addons: ["Card Note", "Chocolates", "Balloon"],
         leadTimeHours: 12,
 
-        image: PEXELS.pastelWrap,
+        image: IMAGES.pastelWrap,
 
         imageBase: "",
-        defaultImage: PEXELS.pastelWrap,
+        defaultImage: IMAGES.pastelWrap,
         colorImages: {
-            Pastel: PEXELS.pastelWrap,
-            Mixed: PEXELS.mixedPastel,
+            Pastel: IMAGES.pastelWrap,
+            Mixed: IMAGES.mixedPastel,
         },
 
         featured: true,
     },
+
     {
         id: "sunshine-gerberas",
         name: "Sunshine Gerberas",
@@ -221,18 +304,19 @@ export const BOUQUETS = [
         addons: ["Card Note", "Vase"],
         leadTimeHours: 8,
 
-        image: PEXELS.sunshineYellow,
+        image: IMAGES.sunshineYellow,
 
         imageBase: "",
-        defaultImage: PEXELS.sunshineYellow,
+        defaultImage: IMAGES.sunshineYellow,
         colorImages: {
-            Yellow: PEXELS.sunshineYellow,
-            Orange: PEXELS.warmOrange,
-            Mixed: PEXELS.brightMixed,
+            Yellow: IMAGES.sunshineYellow,
+            Orange: IMAGES.warmOrange,
+            Mixed: IMAGES.brightMixed,
         },
 
         featured: false,
     },
+
     {
         id: "white-lilies-elegance",
         name: "White Lilies Elegance",
@@ -246,12 +330,12 @@ export const BOUQUETS = [
         addons: ["Card Note", "Vase", "Fairy Lights"],
         leadTimeHours: 24,
 
-        image: PEXELS.whiteLilies,
+        image: IMAGES.whiteLilies,
 
         imageBase: "",
-        defaultImage: PEXELS.whiteLilies,
+        defaultImage: IMAGES.whiteLilies,
         colorImages: {
-            White: PEXELS.whiteLilies,
+            White: IMAGES.whiteLilies,
         },
 
         featured: false,
