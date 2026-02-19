@@ -59,7 +59,7 @@ export function buildCartWhatsAppMessage({ cart, estimate, deliveryDate, deliver
     const estMin = estimate?.min ?? 0;
     const estMax = estimate?.max ?? 0;
 
-    const lines = ["Hi, I’d like to place an order.", " "];
+    const lines = ["Hi, I'd like to place an order.", " "];
 
     const dd = normaliseStr(deliveryDate);
     if (dd) {

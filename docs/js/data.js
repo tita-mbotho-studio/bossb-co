@@ -1,39 +1,71 @@
 // src/js/data.js
 
 export const SHOP = {
-    name: "Sister Blooms",
+    name: "BOSSB CO",
     whatsappNumber: "27682158780", // SA format: country code + number, no + or spaces
     currency: "ZAR",
-    city: "Cape Town",
+    city: "Johannesburg",
+
+    // Delivery areas (from client message)
     areas: [
-        "CBD",
-        "Woodstock",
-        "Salt River",
-        "Observatory",
-        "Green Point",
-        "Sea Point",
-        "Gardens",
-        "Oranjezicht",
-        "Tamboerskloof",
-        "Rondebosch",
-        "Claremont",
-        "Newlands",
-        "Kenilworth",
-        "Wynberg",
-        "Bellville (limited slots)",
-        "Durbanville (limited slots)",
+        // Johannesburg & Surrounds
+        "Sandton",
+        "Midrand",
+        "Randburg",
+        "Soweto",
+        "Roodepoort",
+        "JHB CBD",
+
+        // East Rand
+        "Kempton Park",
+        "Benoni",
+        "Boksburg",
+        "Germiston",
+        "Alberton",
+        "Tembisa",
+
+        // Pretoria / Centurion
+        "Pretoria",
+        "Centurion",
+        "Mamelodi",
+        "Soshanguve",
+
+        // West Rand
+        "Krugersdorp",
+        "Randfontein",
+        "Carletonville",
+
+        // Vaal Triangle
+        "Vereeniging",
+        "Vanderbijlpark",
+        "Meyerton",
+
+        // Limpopo: Capricorn / Polokwane Area
+        "Polokwane",
+        "Seshego",
+        "Mankweng",
+        "Lebowakgomo",
+        "Zebediela",
+
+        // Limpopo: Sekhukhune District
+        "Burgersfort",
+        "Groblersdal",
+        "Marble Hall",
+        "Jane Furse",
+        "Steelpoort",
     ],
+
     deliveryNotes: [
-        "Same-day delivery for CBD/Atlantic Seaboard if ordered before 12:00.",
-        "Other areas: 24-hour notice recommended.",
-        "Delivery fee depends on distance (confirmed on WhatsApp).",
+        "Delivery availability and fees depend on distance (confirmed on WhatsApp).",
+        "Same-day delivery may be available depending on stock and route capacity.",
+        "If your area isn't listed, WhatsApp us—delivery may still be possible depending on availability.",
     ],
 };
 
 /**
  * Turn a display color into a filename-safe slug.
  * "Blush Pink" -> "blush-pink"
- * "Valentine’s Red" -> "valentines-red"
+ * "Valentine's Red" -> "valentines-red"
  */
 export function slugifyColor(value) {
     return String(value || "")
@@ -107,7 +139,7 @@ export const BOUQUETS = [
         id: "blush-roses-mini",
         name: "Blush Roses (Mini)",
         category: "Roses",
-        shortDescription: "Soft pink roses with baby’s breath and wrap.",
+        shortDescription: "Soft pink roses with baby's breath and wrap.",
         priceMin: 299,
         priceMax: 399,
         sizes: ["Mini", "Standard"],
@@ -138,7 +170,7 @@ export const BOUQUETS = [
         priceMax: 899,
         sizes: ["6 Roses", "12 Roses", "18 Roses"],
         colors: ["Red"],
-        occasions: ["Anniversary", "Valentine’s", "Date Night"],
+        occasions: ["Anniversary", "Valentine's", "Date Night"],
         addons: ["Chocolates", "Card Note", "Balloon"],
         leadTimeHours: 12,
 
@@ -161,7 +193,7 @@ export const BOUQUETS = [
         priceMax: 650,
         sizes: ["Standard", "Large"],
         colors: ["Pastel", "Mixed"],
-        occasions: ["Birthday", "Congrats", "Mother’s Day"],
+        occasions: ["Birthday", "Congrats", "Mother's Day"],
         addons: ["Card Note", "Chocolates", "Balloon"],
         leadTimeHours: 12,
 
