@@ -1,5 +1,5 @@
 // src/js/cart-page.js
-import { SHOP, BOUQUETS, getBouquetImage } from "./data.js";
+import { SHOP, BOUQUETS, getBouquetImage, getBouquetImageForSelection } from "./data.js";
 import { getCart, clearCart, updateQty, removeItem, updateItem } from "./cart.js";
 import { openWhatsAppCart } from "./whatsapp.js";
 import { resolveImgSrc, showToast, updateHeaderCartBadge } from "./ui.js";
@@ -79,11 +79,9 @@ function clearDeliveryDate() {
 
 function setDeliveryDate(isoDate) {
   const todayIso = toISODateLocal(new Date());
-
   if (isoDate && isoDate < todayIso) {
     isoDate = todayIso;
   }
-
   writeDeliveryDate(isoDate);
   updateDeliveryUI();
 }
@@ -103,8 +101,8 @@ function setActiveDeliveryButton(which) {
 
 function updateDeliveryUI() {
   const selected = readDeliveryDate();
-
   const today = new Date();
+
   const todayIso = toISODateLocal(today);
   const tomorrowIso = toISODateLocal(
     new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
@@ -151,10 +149,8 @@ function wireDeliveryDate() {
 
   deliveryPickBtn?.addEventListener("click", () => {
     if (!deliveryDatePicker || !deliveryDateInput) return;
-
     const isOpen = deliveryDatePicker.style.display !== "none";
     deliveryDatePicker.style.display = isOpen ? "none" : "block";
-
     if (!isOpen) deliveryDateInput.focus();
     setActiveDeliveryButton("pick");
   });
@@ -210,6 +206,7 @@ function hydrateDeliveryAreas() {
 
   const first = deliveryAreaSelect.querySelector('option[value=""]');
   deliveryAreaSelect.innerHTML = "";
+
   if (first) deliveryAreaSelect.appendChild(first);
   else {
     const opt = document.createElement("option");
@@ -221,7 +218,6 @@ function hydrateDeliveryAreas() {
   (SHOP.areas || []).forEach((a) => {
     const area = String(a || "").trim();
     if (!area) return;
-
     const opt = document.createElement("option");
     opt.value = area;
     opt.textContent = area;
@@ -297,7 +293,6 @@ function renderEmpty() {
 
   setDeliveryDateVisible(false);
   setDeliveryAreaVisible(false);
-
   updateDeliveryUI();
   updateDeliveryAreaUI();
 
@@ -318,6 +313,7 @@ function renderEmpty() {
 
   const summary = document.querySelector("#cartEstimate");
   if (summary) summary.textContent = "—";
+
   setCheckoutEnabled(false);
 }
 
@@ -326,8 +322,24 @@ function renderEmpty() {
 -------------------------------- */
 
 function resolveItemImage(item, bouquet) {
+  // Prefer whatever was stored at add-to-cart time
   if (item?.image) return item.image;
-  if (bouquet) return getBouquetImage(bouquet, item?.color || null);
+
+  // Otherwise derive it from the bouquet + current selections
+  if (bouquet) {
+    const color = item?.color || null;
+    const size = item?.size || null;
+
+    // New: supports size-based images (Rośe Dreams) while keeping color-based logic for others
+    return (
+      getBouquetImageForSelection(bouquet, { color, size }) ||
+      getBouquetImage(bouquet, color) ||
+      bouquet.defaultImage ||
+      bouquet.image ||
+      ""
+    );
+  }
+
   return "";
 }
 
@@ -344,10 +356,8 @@ function render() {
 
   setDeliveryDateVisible(true);
   setDeliveryAreaVisible(true);
-
   updateDeliveryUI();
   updateDeliveryAreaUI();
-
   setCheckoutEnabled(true);
 
   cartList.innerHTML = cart
@@ -379,7 +389,12 @@ function render() {
 
       const imgRaw = resolveItemImage(i, b);
       const imgSrc = resolveImgSrc(imgRaw);
-      const imgAlt = `${i.name}${i.color ? ` (${i.color})` : ""}`;
+
+      const imgBits = [];
+      if (i.size) imgBits.push(i.size);
+      if (i.color) imgBits.push(i.color);
+      const imgSuffix = imgBits.length ? ` (${imgBits.join(", ")})` : "";
+      const imgAlt = `${i.name}${imgSuffix}`;
 
       return `
         <div class="card">
@@ -388,18 +403,15 @@ function render() {
               <div class="cart-item-meta">
                 <div class="cart-item-head">
                   ${imgSrc
-          ? `<img class="cart-thumb" src="${imgSrc}" alt="${imgAlt}" loading="lazy"
-                           onerror="this.style.display='none';" />`
+          ? `<img class="cart-thumb" src="${imgSrc}" alt="${imgAlt}" loading="lazy" onerror="this.style.display='none';" />`
           : ""
         }
-
                   <div class="cart-item-titleblock">
                     <h3 class="m-0">${i.name}</h3>
                     <p class="muted m-0">Est. ${money(i.priceMin)}–${money(i.priceMax)} each</p>
                   </div>
                 </div>
               </div>
-
               <button class="btn btn-danger removeBtn" data-key="${i.key}" type="button">Remove</button>
             </div>
 
@@ -457,7 +469,6 @@ function wire() {
   document.querySelectorAll(".removeBtn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const key = e.currentTarget.dataset.key;
-
       const cart = getCart();
       const item = cart.find((x) => x.key === key);
       const label = item?.name || "Item";
@@ -471,7 +482,6 @@ function wire() {
 
       updateHeaderCartBadge();
       render();
-
       showToast("Removed", label);
     });
   });
@@ -487,6 +497,7 @@ function wire() {
 
       const next = Math.max(1, (item.qty || 1) + delta);
       updateQty(key, next);
+
       updateHeaderCartBadge();
       render();
     });
@@ -498,14 +509,24 @@ function wire() {
       const field = e.currentTarget.dataset.field;
       const value = e.currentTarget.value;
 
-      if (field === "color") {
-        const cart = getCart();
-        const item = cart.find((x) => x.key === key);
-        const bouquet = BOUQUETS.find((b) => b.id === item?.id);
+      const cart = getCart();
+      const item = cart.find((x) => x.key === key);
+      if (!item) return;
 
-        const image = bouquet ? getBouquetImage(bouquet, value) : item?.image;
+      const bouquet = BOUQUETS.find((b) => b.id === item.id);
 
-        updateItem(key, { color: value, image });
+      // If size or color changes, recompute image using selection-aware resolver
+      if (field === "color" || field === "size") {
+        const nextColor = field === "color" ? value : item.color;
+        const nextSize = field === "size" ? value : item.size;
+
+        const image = bouquet
+          ? (getBouquetImageForSelection(bouquet, { color: nextColor || null, size: nextSize || null }) ||
+            getBouquetImage(bouquet, nextColor || null) ||
+            item.image)
+          : item.image;
+
+        updateItem(key, { [field]: value, image });
       } else {
         updateItem(key, { [field]: value });
       }
@@ -529,6 +550,7 @@ function wire() {
       else addons.delete(addon);
 
       updateItem(key, { addons: Array.from(addons) });
+
       updateHeaderCartBadge();
       render();
     });

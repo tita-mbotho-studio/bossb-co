@@ -105,6 +105,46 @@ export function getBouquetImage(bouquet, color) {
 }
 
 /**
+ * Return the best image for a bouquet based on selected SIZE.
+ * - If bouquet.sizeImages has a match, use it
+ * - Else fall back to bouquet.defaultImage
+ * - Else fall back to legacy bouquet.image
+ *
+ * This is additive (does not change existing color-based logic).
+ */
+export function getBouquetImageBySize(bouquet, size) {
+    if (!bouquet) return "";
+
+    const selected = (size || "").trim();
+
+    if (selected && bouquet.sizeImages && bouquet.sizeImages[selected]) {
+        return bouquet.sizeImages[selected];
+    }
+
+    return bouquet.defaultImage || bouquet.image || "";
+}
+
+/**
+ * Selection-aware image resolver:
+ * - If bouquet has sizeImages and a size is selected -> use size image
+ * - Else -> use existing color-based resolver
+ *
+ * This keeps all existing behaviour untouched for other bouquets.
+ */
+export function getBouquetImageForSelection(bouquet, { color = null, size = null } = {}) {
+    if (!bouquet) return "";
+
+    const chosenSize = (size || "").trim();
+    const chosenColor = (color || "").trim();
+
+    if (chosenSize && bouquet.sizeImages) {
+        return getBouquetImageBySize(bouquet, chosenSize) || "";
+    }
+
+    return getBouquetImage(bouquet, chosenColor) || "";
+}
+
+/**
  * Replace placeholders with YOUR hosted images (ImageKit / Cloudinary / etc).
  * URLs must be public and stable.
  *
@@ -141,14 +181,21 @@ const IMAGES = {
         "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/white-lilies-elegance/white.jpg",
 
     // --- Serenity Wreath Collection (Funeral Wreaths) ---
-    // Replace these with your actual product photos
-    // --- Serenity Wreath Collection ---
     eternalHonourWreath:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_a.jpeg",
 
     gentleGoodbyeWreath:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_b.jpeg",
 
+    // --- Rośe Dreams Collection (Rose Boxes) ---
+    roseDreamsSmall:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_a.jpeg?updatedAt=1771671991144",
+
+    roseDreamsMedium:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_b.jpeg?updatedAt=1771671991965",
+
+    roseDreamsLarge:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_c.jpeg?updatedAt=1771671992519",
 };
 
 export const BOUQUETS = [
@@ -208,6 +255,52 @@ export const BOUQUETS = [
             Pink: IMAGES.eternalHonourWreath,
             Yellow: IMAGES.eternalHonourWreath,
             Red: IMAGES.eternalHonourWreath,
+        },
+
+        featured: false,
+    },
+
+    // ==========================
+    // ROŚE DREAMS COLLECTION (ONE PRODUCT)
+    // Image changes by SIZE (Small/Medium/Large)
+    // ==========================
+
+    {
+        id: "rose-dreams-collection",
+        name: "Rośe Dreams Collection",
+        category: "Rose Boxes",
+        collection: "Rośe Dreams Collection",
+        shortDescription:
+            "A soft, romantic range of pink floral boxes designed to feel feminine, delicate, and luxurious. Choose your size and customise your box.",
+        priceMin: 450,
+        priceMax: 1500,
+        sizes: ["Small", "Medium", "Large"],
+
+        // Updated per request
+        colors: ["Pink", "White", "Red", "Purple", "Orange"],
+
+        occasions: ["Love", "Friendship", "Anniversary", "Just Because", "Birthday"],
+
+        // Updated per request
+        addons: ["Dior Ribbon", "Chanel Ribbon", "Gucci Ribbon", "Personalized Message Cards"],
+
+        leadTimeHours: 24,
+
+        image: IMAGES.roseDreamsSmall,
+        imageBase: "",
+        defaultImage: IMAGES.roseDreamsSmall,
+
+        // Existing colour image system kept (no behaviour change)
+        // Note: Only "Pink" has an explicit image mapping right now; others will fall back to default.
+        colorImages: {
+            Pink: IMAGES.roseDreamsSmall,
+        },
+
+        // New size image system (used only when size is selected)
+        sizeImages: {
+            Small: IMAGES.roseDreamsSmall,
+            Medium: IMAGES.roseDreamsMedium,
+            Large: IMAGES.roseDreamsLarge,
         },
 
         featured: false,

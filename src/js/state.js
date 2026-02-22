@@ -1,5 +1,5 @@
 // src/js/state.js
-import { BOUQUETS, getBouquetImage } from "./data.js";
+import { BOUQUETS, getBouquetImage, getBouquetImageForSelection } from "./data.js";
 import { addToCart, getCartCount } from "./cart.js";
 import { showToast, updateHeaderCartBadge } from "./ui.js";
 
@@ -19,9 +19,18 @@ function getSelectValue(id) {
   return v ? v : null;
 }
 
-function resolveBouquetImage(bouquet, color) {
+function resolveBouquetImage(bouquet, { color = null, size = null } = {}) {
   if (!bouquet) return "";
-  return getBouquetImage(bouquet, color) || bouquet.defaultImage || bouquet.image || "";
+
+  // New selection-aware resolver (size-first when bouquet.sizeImages exists)
+  const picked =
+    getBouquetImageForSelection(bouquet, { color, size }) ||
+    getBouquetImage(bouquet, color) ||
+    bouquet.defaultImage ||
+    bouquet.image ||
+    "";
+
+  return picked;
 }
 
 /* ------------------------------
@@ -46,7 +55,7 @@ function updateMiniCartBar() {
 }
 
 /* ------------------------------
-   Image (swap on colour change)
+   Image (swap on colour/size change)
 -------------------------------- */
 
 function updateBouquetImage(bouquet) {
@@ -54,18 +63,30 @@ function updateBouquetImage(bouquet) {
   if (!img || !bouquet) return;
 
   const color = getSelectValue("colorSelect");
-  const src = resolveBouquetImage(bouquet, color);
+  const size = getSelectValue("sizeSelect");
+
+  const src = resolveBouquetImage(bouquet, { color, size });
 
   if (src && img.getAttribute("src") !== src) img.setAttribute("src", src);
 
-  const chosen = color ? ` (${color})` : "";
+  const chosenBits = [];
+  if (size) chosenBits.push(size);
+  if (color) chosenBits.push(color);
+
+  const chosen = chosenBits.length ? ` (${chosenBits.join(", ")})` : "";
   img.setAttribute("alt", `${bouquet.name}${chosen}`);
 }
 
 function wireImageSwap(bouquet) {
   updateBouquetImage(bouquet);
+
+  // Keep existing behaviour (colour change swaps image for bouquets that use colour images)
   const color = document.querySelector("#colorSelect");
   if (color) color.addEventListener("change", () => updateBouquetImage(bouquet));
+
+  // Additive behaviour: size change swaps image only if bouquet provides sizeImages
+  const size = document.querySelector("#sizeSelect");
+  if (size) size.addEventListener("change", () => updateBouquetImage(bouquet));
 }
 
 /* ------------------------------
@@ -190,7 +211,7 @@ function renderBouquet(bouquet) {
   // Prevent add-ons leaking between bouquets
   resetSelectedAddons();
 
-  const initialImg = resolveBouquetImage(bouquet, null);
+  const initialImg = resolveBouquetImage(bouquet, { color: null, size: null });
 
   container.innerHTML = `
     <div class="detail">
@@ -337,7 +358,7 @@ function onAddToCart(bouquet) {
     return;
   }
 
-  const image = resolveBouquetImage(bouquet, color);
+  const image = resolveBouquetImage(bouquet, { color, size });
 
   addToCart({
     id: bouquet.id,
