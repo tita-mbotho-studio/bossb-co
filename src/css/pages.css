@@ -12,22 +12,35 @@
     height: clamp(280px, 48vh, 380px);
     border: 1px solid rgba(0, 0, 0, 0.10);
 
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.18) 42%, rgba(0, 0, 0, 0.08) 100%),
-        var(--img-hero);
-
-    background-size: cover;
-    background-position: center;
     overflow: hidden;
 }
 
+/* Video layer behind content */
+.hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Overlay (keeps readability on top of video) */
 .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(235, 232, 228, 0.18);
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.18) 42%, rgba(0, 0, 0, 0.08) 100%),
+        rgba(235, 232, 228, 0.10);
     pointer-events: none;
-    mix-blend-mode: screen;
+    z-index: 1;
 }
 
 .hero-inner {
@@ -37,6 +50,7 @@
     top: 50%;
     transform: translateY(-50%);
     max-width: min(520px, 100%);
+    z-index: 2;
 }
 
 .hero h1 {
