@@ -147,39 +147,8 @@ export function getBouquetImageForSelection(bouquet, { color = null, size = null
 /**
  * Replace placeholders with YOUR hosted images (ImageKit / Cloudinary / etc).
  * URLs must be public and stable.
- *
- * EXAMPLE FORMAT (ImageKit):
- * https://ik.imagekit.io/<imagekit_id>/bossb-co/bouquets/blush-roses-mini/blush-pink.jpg
  */
 const IMAGES = {
-    // --- Bouquet 1: Blush Roses (Mini) ---
-    blushPink:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/blush-roses-mini/blush-pink.jpg",
-    softWhite:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/blush-roses-mini/white.jpg",
-
-    // --- Bouquet 2: Classic Red Roses ---
-    redRoses:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/red-roses-classic/red.jpg",
-
-    // --- Bouquet 3: Pastel Mix Wrap ---
-    pastelWrap:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/pastel-mix-wrap/pastel.jpg",
-    mixedPastel:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/pastel-mix-wrap/mixed.jpg",
-
-    // --- Bouquet 4: Sunshine Gerberas ---
-    sunshineYellow:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/sunshine-gerberas/yellow.jpg",
-    warmOrange:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/sunshine-gerberas/orange.jpg",
-    brightMixed:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/sunshine-gerberas/mixed.jpg",
-
-    // --- Bouquet 5: White Lilies Elegance ---
-    whiteLilies:
-        "https://ik.imagekit.io/YOUR_IMAGEKIT_ID/bossb-co/bouquets/white-lilies-elegance/white.jpg",
-
     // --- Serenity Wreath Collection (Funeral Wreaths) ---
     eternalHonourWreath:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_a.jpeg",
@@ -196,6 +165,11 @@ const IMAGES = {
 
     roseDreamsLarge:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_c.jpeg?updatedAt=1771671992519",
+
+    // --- Scarlet Moments Collection ---
+    // Note: Provided as a single image (used for all sizes/colours unless updated later)
+    scarletMoments:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/scarlet_moments_collection/scarlet_moments_collection_a.jpeg",
 };
 
 export const BOUQUETS = [
@@ -275,15 +249,9 @@ export const BOUQUETS = [
         priceMin: 450,
         priceMax: 1500,
         sizes: ["Small", "Medium", "Large"],
-
-        // Updated per request
         colors: ["Pink", "White", "Red", "Purple", "Orange"],
-
         occasions: ["Love", "Friendship", "Anniversary", "Just Because", "Birthday"],
-
-        // Updated per request
-        addons: ["Dior Ribbon", "Chanel Ribbon", "Gucci Ribbon", "Personalized Message Cards"],
-
+        addons: ["Dior Ribbon", "Chanel Ribbon", "Gucci Ribbon", "Personalised Message Cards"],
         leadTimeHours: 24,
 
         image: IMAGES.roseDreamsSmall,
@@ -307,130 +275,36 @@ export const BOUQUETS = [
     },
 
     // ==========================
-    // EXISTING BOUQUETS
+    // SCARLET MOMENTS COLLECTION (ONE PRODUCT)
+    // Single image provided (used for all sizes)
     // ==========================
 
     {
-        id: "blush-roses-mini",
-        name: "Blush Roses (Mini)",
-        category: "Roses",
-        shortDescription: "Soft pink roses with baby's breath and wrap.",
-        priceMin: 299,
-        priceMax: 399,
-        sizes: ["Mini", "Standard"],
-        colors: ["Blush Pink", "White"],
-        occasions: ["Birthday", "Anniversary", "Just Because"],
-        addons: ["Chocolates", "Card Note", "Fairy Lights"],
-        leadTimeHours: 6,
-
-        // Legacy (keep for compatibility)
-        image: IMAGES.blushPink,
-
-        // New image system (URLs)
-        imageBase: "",
-        defaultImage: IMAGES.blushPink,
-        colorImages: {
-            "Blush Pink": IMAGES.blushPink,
-            White: IMAGES.softWhite,
-        },
-
-        featured: true,
-    },
-
-    {
-        id: "red-roses-classic",
-        name: "Classic Red Roses",
-        category: "Roses",
-        shortDescription: "Romantic red roses with premium wrap.",
-        priceMin: 499,
-        priceMax: 899,
-        sizes: ["6 Roses", "12 Roses", "18 Roses"],
-        colors: ["Red"],
-        occasions: ["Anniversary", "Valentine's", "Date Night"],
-        addons: ["Chocolates", "Card Note", "Balloon"],
-        leadTimeHours: 12,
-
-        image: IMAGES.redRoses,
-
-        imageBase: "",
-        defaultImage: IMAGES.redRoses,
-        colorImages: {
-            Red: IMAGES.redRoses,
-        },
-
-        featured: true,
-    },
-
-    {
-        id: "pastel-mix-wrap",
-        name: "Pastel Mix Wrap",
-        category: "Mixed",
-        shortDescription: "Seasonal pastel flowers, styled wrap (varies by stock).",
-        priceMin: 350,
-        priceMax: 650,
-        sizes: ["Standard", "Large"],
-        colors: ["Pastel", "Mixed"],
-        occasions: ["Birthday", "Congrats", "Mother's Day"],
-        addons: ["Card Note", "Chocolates", "Balloon"],
-        leadTimeHours: 12,
-
-        image: IMAGES.pastelWrap,
-
-        imageBase: "",
-        defaultImage: IMAGES.pastelWrap,
-        colorImages: {
-            Pastel: IMAGES.pastelWrap,
-            Mixed: IMAGES.mixedPastel,
-        },
-
-        featured: true,
-    },
-
-    {
-        id: "sunshine-gerberas",
-        name: "Sunshine Gerberas",
-        category: "Mixed",
-        shortDescription: "Bright gerberas, greenery, and wrap.",
-        priceMin: 279,
-        priceMax: 449,
-        sizes: ["Mini", "Standard"],
-        colors: ["Yellow", "Orange", "Mixed"],
-        occasions: ["Get Well", "Congrats", "Just Because"],
-        addons: ["Card Note", "Vase"],
-        leadTimeHours: 8,
-
-        image: IMAGES.sunshineYellow,
-
-        imageBase: "",
-        defaultImage: IMAGES.sunshineYellow,
-        colorImages: {
-            Yellow: IMAGES.sunshineYellow,
-            Orange: IMAGES.warmOrange,
-            Mixed: IMAGES.brightMixed,
-        },
-
-        featured: false,
-    },
-
-    {
-        id: "white-lilies-elegance",
-        name: "White Lilies Elegance",
-        category: "Lilies",
-        shortDescription: "Elegant lilies with soft greenery (buds may open over time).",
-        priceMin: 450,
-        priceMax: 750,
-        sizes: ["Standard", "Large"],
-        colors: ["White"],
-        occasions: ["Thank You", "Housewarming", "Sympathy"],
-        addons: ["Card Note", "Vase", "Fairy Lights"],
+        id: "scarlet-moments-collection",
+        name: "Scarlet Moments Collection",
+        category: "Scarlet Moments",
+        collection: "Scarlet Moments",
+        shortDescription:
+            "A bold and romantic range of red floral designs created to capture deep emotion and unforgettable gestures. Choose your size and customise your arrangement.",
+        priceMin: 1200,
+        priceMax: 2800,
+        sizes: ["Small", "Medium", "Large"],
+        colors: ["Red", "Pink", "Yellow", "Flame", "White"],
+        occasions: ["Love", "Anniversary", "Celebration", "Date Night"],
+        addons: ["Ribbons", "Personalised Message", "Chocolate", "Balloon"],
         leadTimeHours: 24,
 
-        image: IMAGES.whiteLilies,
-
+        image: IMAGES.scarletMoments,
         imageBase: "",
-        defaultImage: IMAGES.whiteLilies,
+        defaultImage: IMAGES.scarletMoments,
+
+        // Keep existing colour image system compatible (single image fallback)
         colorImages: {
-            White: IMAGES.whiteLilies,
+            Red: IMAGES.scarletMoments,
+            Pink: IMAGES.scarletMoments,
+            Yellow: IMAGES.scarletMoments,
+            Flame: IMAGES.scarletMoments,
+            White: IMAGES.scarletMoments,
         },
 
         featured: false,
