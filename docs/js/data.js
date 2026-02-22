@@ -241,7 +241,7 @@ export const BOUQUETS = [
 
     {
         id: "rose-dreams-collection",
-        name: "Rośe Dreams Collection",
+        name: "Rośe Dreams",
         category: "Rose Boxes",
         collection: "Rośe Dreams Collection",
         shortDescription:
@@ -281,7 +281,7 @@ export const BOUQUETS = [
 
     {
         id: "scarlet-moments-collection",
-        name: "Scarlet Moments Collection",
+        name: "Scarlet Moments",
         category: "Scarlet Moments",
         collection: "Scarlet Moments",
         shortDescription:
