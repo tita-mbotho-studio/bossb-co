@@ -170,6 +170,10 @@ const IMAGES = {
     // Note: Provided as a single image (used for all sizes/colours unless updated later)
     scarletMoments:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/scarlet_moments_collection/scarlet_moments_collection_a.jpeg",
+
+    // --- Beauty Basket Collection ---
+    beautyBasket:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/beauty_basket_collection/beauty_basket_collection_a.jpeg",
 };
 
 export const BOUQUETS = [
@@ -297,14 +301,49 @@ export const BOUQUETS = [
         image: IMAGES.scarletMoments,
         imageBase: "",
         defaultImage: IMAGES.scarletMoments,
-
-        // Keep existing colour image system compatible (single image fallback)
         colorImages: {
             Red: IMAGES.scarletMoments,
             Pink: IMAGES.scarletMoments,
             Yellow: IMAGES.scarletMoments,
             Flame: IMAGES.scarletMoments,
             White: IMAGES.scarletMoments,
+        },
+
+        featured: false,
+    },
+
+    // ==========================
+    // BEAUTY BASKET COLLECTION
+    // Single image provided for now (used for all colours and sizes)
+    // Brand is a dedicated required selection
+    // ==========================
+
+    {
+        id: "beauty-basket-collection",
+        name: "Beauty Basket",
+        category: "Gift Baskets",
+        collection: "Beauty Basket Collection",
+        shortDescription:
+            "A luxurious beauty basket curated with premium cosmetic brands, designed as a thoughtful and stylish gift for special occasions.",
+        priceMin: 1500,
+        priceMax: 7000,
+        sizes: ["Small", "Standard", "Large"],
+        colors: ["Pink", "Purple", "Red", "Brown", "Yellow"],
+        brands: ["Essence", "Nars", "Mac", "Scarlet Hill"],
+        requiredSelections: ["size", "color", "brand"],
+        occasions: ["Birthday", "Love", "Celebration", "Gift", "Just Because"],
+        addons: ["Personalised Message", "Chocolate", "Balloon", "Ribbon"],
+        leadTimeHours: 24,
+
+        image: IMAGES.beautyBasket,
+        imageBase: "",
+        defaultImage: IMAGES.beautyBasket,
+        colorImages: {
+            Pink: IMAGES.beautyBasket,
+            Purple: IMAGES.beautyBasket,
+            Red: IMAGES.beautyBasket,
+            Brown: IMAGES.beautyBasket,
+            Yellow: IMAGES.beautyBasket,
         },
 
         featured: false,

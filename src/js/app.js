@@ -95,6 +95,10 @@ function safeFirst(arr) {
   return Array.isArray(arr) && arr.length ? arr[0] : null;
 }
 
+function hasRequiredSelections(bouquet) {
+  return Array.isArray(bouquet?.requiredSelections) && bouquet.requiredSelections.length > 0;
+}
+
 function setResultsMeta({ shown, total }) {
   const resultsMeta = $("#resultsMeta");
   if (!resultsMeta) return;
@@ -206,6 +210,12 @@ function wireQuickAdd(container) {
       const b = BOUQUETS.find((x) => x.id === id);
       if (!b) return;
 
+      // Products with requiredSelections should go to detail page for proper selection
+      if (hasRequiredSelections(b)) {
+        window.location.href = `./bouquet.html?id=${encodeURIComponent(b.id)}`;
+        return;
+      }
+
       const size = safeFirst(b.sizes);
       const color = safeFirst(b.colors);
 
@@ -223,6 +233,7 @@ function wireQuickAdd(container) {
         priceMax: b.priceMax,
         size,
         color,
+        brand: null,
         image,
         addons: [],
         qty: 1,
@@ -288,6 +299,7 @@ function applyFiltersAndSort() {
         b.category,
         ...(b.colors || []),
         ...(b.sizes || []),
+        ...(b.brands || []),
         ...(b.occasions || []),
       ]
         .map(safeLower)

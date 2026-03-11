@@ -32,7 +32,6 @@ function pad2(n) {
   return String(n).padStart(2, "0");
 }
 
-// Returns YYYY-MM-DD (local)
 function toISODateLocal(d) {
   const year = d.getFullYear();
   const month = pad2(d.getMonth() + 1);
@@ -322,15 +321,12 @@ function renderEmpty() {
 -------------------------------- */
 
 function resolveItemImage(item, bouquet) {
-  // Prefer whatever was stored at add-to-cart time
   if (item?.image) return item.image;
 
-  // Otherwise derive it from the bouquet + current selections
   if (bouquet) {
     const color = item?.color || null;
     const size = item?.size || null;
 
-    // New: supports size-based images (Rośe Dreams) while keeping color-based logic for others
     return (
       getBouquetImageForSelection(bouquet, { color, size }) ||
       getBouquetImage(bouquet, color) ||
@@ -370,6 +366,10 @@ function render() {
 
       const colorOptions = (b?.colors || [])
         .map((c) => `<option value="${c}" ${c === i.color ? "selected" : ""}>${c}</option>`)
+        .join("");
+
+      const brandOptions = (b?.brands || [])
+        .map((brand) => `<option value="${brand}" ${brand === i.brand ? "selected" : ""}>${brand}</option>`)
         .join("");
 
       const addonOptions = (b?.addons || [])
@@ -429,6 +429,18 @@ function render() {
                   ${colorOptions || `<option value="">N/A</option>`}
                 </select>
               </div>
+
+              ${brandOptions
+          ? `
+              <div class="field">
+                <label class="muted field-label">Brand</label>
+                <select class="selectInput" data-field="brand" data-key="${i.key}">
+                  ${brandOptions}
+                </select>
+              </div>
+              `
+          : ""
+        }
 
               <div class="field">
                 <label class="muted field-label">Add-ons</label>
@@ -515,13 +527,15 @@ function wire() {
 
       const bouquet = BOUQUETS.find((b) => b.id === item.id);
 
-      // If size or color changes, recompute image using selection-aware resolver
       if (field === "color" || field === "size") {
         const nextColor = field === "color" ? value : item.color;
         const nextSize = field === "size" ? value : item.size;
 
         const image = bouquet
-          ? (getBouquetImageForSelection(bouquet, { color: nextColor || null, size: nextSize || null }) ||
+          ? (getBouquetImageForSelection(bouquet, {
+            color: nextColor || null,
+            size: nextSize || null,
+          }) ||
             getBouquetImage(bouquet, nextColor || null) ||
             item.image)
           : item.image;

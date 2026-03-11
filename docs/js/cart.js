@@ -1,3 +1,5 @@
+// src/js/cart.js
+
 const CART_KEY = "sb_cart_v1";
 
 function safeJsonParse(value, fallback) {
@@ -21,9 +23,8 @@ function normaliseAddons(addons) {
 }
 
 function stableKey(item) {
-  // Separate line items for same bouquet with different options
   const addons = normaliseAddons(item.addons).join("|");
-  return [item.id, item.size || "", item.color || "", addons].join("::");
+  return [item.id, item.size || "", item.color || "", item.brand || "", addons].join("::");
 }
 
 function normaliseStringOrNull(v) {
@@ -54,7 +55,8 @@ export function addToCart(item) {
     priceMax: Number(item.priceMax) || 0,
     size: item.size ? String(item.size) : null,
     color: item.color ? String(item.color) : null,
-    image: item.image ? String(item.image) : null, // ✅ store image (URL or relative)
+    brand: item.brand ? String(item.brand) : null,
+    image: item.image ? String(item.image) : null,
     addons: normaliseAddons(item.addons),
     qty: Math.max(1, Number(item.qty) || 1),
   };
@@ -64,7 +66,6 @@ export function addToCart(item) {
   const existing = cart.find((x) => x.key === key);
   if (existing) {
     existing.qty = (Number(existing.qty) || 0) + payload.qty;
-    // If we ever add a newer image, keep it
     if (payload.image) existing.image = payload.image;
   } else {
     cart.push({ ...payload, key });
@@ -91,7 +92,7 @@ export function removeItem(key) {
 
 /**
  * Update an existing cart line item by key.
- * IMPORTANT: size/color/addons affect the stable key.
+ * IMPORTANT: size/color/brand/addons affect the stable key.
  * So we recompute the key and merge if it collides with another line item.
  */
 export function updateItem(key, patch) {
@@ -106,25 +107,20 @@ export function updateItem(key, patch) {
     ...patch,
   };
 
-  // Ensure clean normalised shapes
   nextCandidate.size = normaliseStringOrNull(nextCandidate.size);
   nextCandidate.color = normaliseStringOrNull(nextCandidate.color);
+  nextCandidate.brand = normaliseStringOrNull(nextCandidate.brand);
   nextCandidate.addons = normaliseAddons(nextCandidate.addons);
-
-  // Keep image nullable + trimmed
   nextCandidate.image = normaliseStringOrNull(nextCandidate.image);
 
-  // Recompute key when options change
   const nextKey = stableKey(nextCandidate);
 
-  // If key unchanged, just write updated item
   if (nextKey === current.key) {
     cart[idx] = { ...nextCandidate, key: current.key };
     writeCart(cart);
     return;
   }
 
-  // Key changed -> may collide with an existing line item
   const existingIdx = cart.findIndex((x) => x.key === nextKey);
 
   if (existingIdx !== -1) {
@@ -134,7 +130,6 @@ export function updateItem(key, patch) {
     cart[existingIdx] = {
       ...cart[existingIdx],
       qty: Math.max(1, mergedQty),
-      // Prefer the newest image if present
       image: nextCandidate.image || cart[existingIdx].image || null,
     };
 

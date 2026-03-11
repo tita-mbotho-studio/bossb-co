@@ -81,6 +81,7 @@ export function buildCartWhatsAppMessage({ cart, estimate, deliveryDate, deliver
         lines.push(`${idx + 1}) ${i?.name} (Qty: ${qty})`);
         if (i?.size) lines.push(`   - Size: ${i.size}`);
         if (i?.color) lines.push(`   - Color: ${i.color}`);
+        if (i?.brand) lines.push(`   - Brand: ${i.brand}`);
         if (Array.isArray(i?.addons) && i.addons.length) {
             lines.push(`   - Add-ons: ${i.addons.join(", ")}`);
         }
