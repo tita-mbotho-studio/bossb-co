@@ -49,7 +49,7 @@ export function openWhatsAppMessage(message) {
 }
 
 /* ------------------------------
-   Cart order (single source of truth)
+   Cart order
 -------------------------------- */
 
 export function buildCartWhatsAppMessage({ cart, estimate, deliveryDate, deliveryArea }) {
@@ -82,6 +82,7 @@ export function buildCartWhatsAppMessage({ cart, estimate, deliveryDate, deliver
         if (i?.size) lines.push(`   - Size: ${i.size}`);
         if (i?.color) lines.push(`   - Color: ${i.color}`);
         if (i?.brand) lines.push(`   - Brand: ${i.brand}`);
+        if (i?.ribbonColor) lines.push(`   - Ribbon colour: ${i.ribbonColor}`);
         if (Array.isArray(i?.addons) && i.addons.length) {
             lines.push(`   - Add-ons: ${i.addons.join(", ")}`);
         }

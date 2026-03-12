@@ -37,7 +37,7 @@ function getRequiredSelections(bouquet) {
     ? bouquet.requiredSelections
     : ["size", "color"];
 
-  return Array.from(new Set(list.map((x) => String(x || "").trim().toLowerCase()).filter(Boolean)));
+  return Array.from(new Set(list.map((x) => String(x || "").trim()).filter(Boolean)));
 }
 
 function getSelectionValues() {
@@ -45,6 +45,7 @@ function getSelectionValues() {
     size: getSelectValue("sizeSelect"),
     color: getSelectValue("colorSelect"),
     brand: getSelectValue("brandSelect"),
+    ribbonColor: getSelectValue("ribbonColorSelect"),
   };
 }
 
@@ -57,6 +58,7 @@ function getMissingSelections(bouquet) {
 
 function displaySelectionName(field) {
   if (field === "color") return "colour";
+  if (field === "ribbonColor") return "ribbon colour";
   return field;
 }
 
@@ -82,7 +84,7 @@ function updateMiniCartBar() {
 }
 
 /* ------------------------------
-   Image (swap on colour/size change)
+   Image
 -------------------------------- */
 
 function updateBouquetImage(bouquet) {
@@ -115,7 +117,7 @@ function wireImageSwap(bouquet) {
 }
 
 /* ------------------------------
-   Add-ons dropdown + chips (multi-select)
+   Add-ons dropdown + chips
 -------------------------------- */
 
 const selectedAddons = new Set();
@@ -237,6 +239,7 @@ function renderBouquet(bouquet) {
 
   const initialImg = resolveBouquetImage(bouquet, { color: null, size: null });
   const hasBrands = Array.isArray(bouquet.brands) && bouquet.brands.length > 0;
+  const hasRibbonColors = Array.isArray(bouquet.ribbonColors) && bouquet.ribbonColors.length > 0;
 
   container.innerHTML = `
     <div class="detail">
@@ -253,7 +256,6 @@ function renderBouquet(bouquet) {
       </div>
 
       <div class="detail-layout">
-        <!-- LEFT: Image -->
         <div>
           <div class="card bouquet-preview">
             <div class="bouquet-preview-media">
@@ -269,7 +271,6 @@ function renderBouquet(bouquet) {
           </div>
         </div>
 
-        <!-- RIGHT: Controls -->
         <div class="detail-right">
           <div class="card detail-card">
             <h3 class="detail-h">Customise</h3>
@@ -282,12 +283,15 @@ function renderBouquet(bouquet) {
     options: bouquet.sizes,
   })}
 
-            ${renderSelect({
-    id: "colorSelect",
-    label: "Colour",
-    placeholder: "Select colour",
-    options: bouquet.colors,
-  })}
+            ${Array.isArray(bouquet.colors) && bouquet.colors.length
+      ? renderSelect({
+        id: "colorSelect",
+        label: "Colour",
+        placeholder: "Select colour",
+        options: bouquet.colors,
+      })
+      : ""
+    }
 
             ${hasBrands
       ? renderSelect({
@@ -295,6 +299,16 @@ function renderBouquet(bouquet) {
         label: "Brand",
         placeholder: "Select brand",
         options: bouquet.brands,
+      })
+      : ""
+    }
+
+            ${hasRibbonColors
+      ? renderSelect({
+        id: "ribbonColorSelect",
+        label: "Ribbon colour",
+        placeholder: "Select ribbon colour",
+        options: bouquet.ribbonColors,
       })
       : ""
     }
@@ -346,6 +360,7 @@ function wireValidation(bouquet) {
   const size = document.querySelector("#sizeSelect");
   const color = document.querySelector("#colorSelect");
   const brand = document.querySelector("#brandSelect");
+  const ribbonColor = document.querySelector("#ribbonColorSelect");
 
   const onChange = () => {
     refreshButtonState(bouquet);
@@ -356,6 +371,7 @@ function wireValidation(bouquet) {
   size?.addEventListener("change", onChange);
   color?.addEventListener("change", onChange);
   brand?.addEventListener("change", onChange);
+  ribbonColor?.addEventListener("change", onChange);
 
   const btn = document.querySelector("#addToCartBtn");
   btn?.addEventListener("click", () => onAddToCart(bouquet));
@@ -384,7 +400,7 @@ function refreshButtonState(bouquet) {
 function onAddToCart(bouquet) {
   if (!bouquet) return;
 
-  const { size, color, brand } = getSelectionValues();
+  const { size, color, brand, ribbonColor } = getSelectionValues();
   const missing = getMissingSelections(bouquet);
 
   if (missing.length) {
@@ -402,6 +418,7 @@ function onAddToCart(bouquet) {
     size,
     color,
     brand,
+    ribbonColor,
     image,
     addons: getSelectedAddons(),
     qty: 1,

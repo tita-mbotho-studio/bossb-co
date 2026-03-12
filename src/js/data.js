@@ -88,29 +88,20 @@ export function getBouquetImage(bouquet, color) {
 
     const selected = (color || "").trim();
 
-    // 1) explicit mapping (best)
     if (selected && bouquet.colorImages && bouquet.colorImages[selected]) {
         return bouquet.colorImages[selected];
     }
 
-    // 2) try slug-based guess (legacy: used when imageBase points to folder)
-    // NOTE: If you ever want a consistent naming strategy, you can set imageBase.
     if (selected && bouquet.imageBase) {
         const slug = slugifyColor(selected);
         if (slug) return `${bouquet.imageBase}/${slug}.jpg`;
     }
 
-    // 3) default
     return bouquet.defaultImage || bouquet.image || "";
 }
 
 /**
  * Return the best image for a bouquet based on selected SIZE.
- * - If bouquet.sizeImages has a match, use it
- * - Else fall back to bouquet.defaultImage
- * - Else fall back to legacy bouquet.image
- *
- * This is additive (does not change existing color-based logic).
  */
 export function getBouquetImageBySize(bouquet, size) {
     if (!bouquet) return "";
@@ -128,8 +119,6 @@ export function getBouquetImageBySize(bouquet, size) {
  * Selection-aware image resolver:
  * - If bouquet has sizeImages and a size is selected -> use size image
  * - Else -> use existing color-based resolver
- *
- * This keeps all existing behaviour untouched for other bouquets.
  */
 export function getBouquetImageForSelection(bouquet, { color = null, size = null } = {}) {
     if (!bouquet) return "";
@@ -167,7 +156,6 @@ const IMAGES = {
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_c.jpeg?updatedAt=1771671992519",
 
     // --- Scarlet Moments Collection ---
-    // Note: Provided as a single image (used for all sizes/colours unless updated later)
     scarletMoments:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/scarlet_moments_collection/scarlet_moments_collection_a.jpeg",
 
@@ -178,14 +166,13 @@ const IMAGES = {
     // --- Baby Bush Collection ---
     babyBush:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a_.jpeg",
+
+    // --- Bridesmaid Bouquets Collection ---
+    bridesmaidBouquets:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/bridesmaid_bouquets_collection/bridesmaid_bouquets_collection_a.jpeg",
 };
 
 export const BOUQUETS = [
-    // ==========================
-    // SERENITY WREATH COLLECTION
-    // NOTE: A MUST be lowest price -> A = R350-R900, B = R400-R1800
-    // ==========================
-
     {
         id: "serenity-wreath-a-gentle-goodbye",
         name: "Gentle Goodbye Wreath",
@@ -193,14 +180,13 @@ export const BOUQUETS = [
         collection: "Serenity Wreath Collection",
         shortDescription:
             "A peaceful funeral wreath designed to honour life with grace. Custom colours, flowers, and ribbon message available on request.",
-        priceMin: 350, // A = lowest
+        priceMin: 350,
         priceMax: 900,
         sizes: ["Small", "Standard", "Large"],
         colors: ["White", "Pink", "Yellow", "Red"],
         occasions: ["Sympathy", "Funeral", "Memorial"],
         addons: ["Ribbon Message", "Family Name", "Faith or Symbolic Elements"],
         leadTimeHours: 24,
-
         image: IMAGES.gentleGoodbyeWreath,
         imageBase: "",
         defaultImage: IMAGES.gentleGoodbyeWreath,
@@ -210,7 +196,6 @@ export const BOUQUETS = [
             Yellow: IMAGES.gentleGoodbyeWreath,
             Red: IMAGES.gentleGoodbyeWreath,
         },
-
         featured: false,
     },
 
@@ -228,7 +213,6 @@ export const BOUQUETS = [
         occasions: ["Sympathy", "Funeral", "Memorial"],
         addons: ["Ribbon Message", "Family Name", "Faith or Symbolic Elements"],
         leadTimeHours: 24,
-
         image: IMAGES.eternalHonourWreath,
         imageBase: "",
         defaultImage: IMAGES.eternalHonourWreath,
@@ -238,14 +222,8 @@ export const BOUQUETS = [
             Yellow: IMAGES.eternalHonourWreath,
             Red: IMAGES.eternalHonourWreath,
         },
-
         featured: false,
     },
-
-    // ==========================
-    // ROŚE DREAMS COLLECTION (ONE PRODUCT)
-    // Image changes by SIZE (Small/Medium/Large)
-    // ==========================
 
     {
         id: "rose-dreams-collection",
@@ -261,31 +239,19 @@ export const BOUQUETS = [
         occasions: ["Love", "Friendship", "Anniversary", "Just Because", "Birthday"],
         addons: ["Dior Ribbon", "Chanel Ribbon", "Gucci Ribbon", "Personalised Message Cards"],
         leadTimeHours: 24,
-
         image: IMAGES.roseDreamsSmall,
         imageBase: "",
         defaultImage: IMAGES.roseDreamsSmall,
-
-        // Existing colour image system kept (no behaviour change)
-        // Note: Only "Pink" has an explicit image mapping right now; others will fall back to default.
         colorImages: {
             Pink: IMAGES.roseDreamsSmall,
         },
-
-        // New size image system (used only when size is selected)
         sizeImages: {
             Small: IMAGES.roseDreamsSmall,
             Medium: IMAGES.roseDreamsMedium,
             Large: IMAGES.roseDreamsLarge,
         },
-
         featured: false,
     },
-
-    // ==========================
-    // SCARLET MOMENTS COLLECTION (ONE PRODUCT)
-    // Single image provided (used for all sizes)
-    // ==========================
 
     {
         id: "scarlet-moments-collection",
@@ -301,7 +267,6 @@ export const BOUQUETS = [
         occasions: ["Love", "Anniversary", "Celebration", "Date Night"],
         addons: ["Ribbons", "Personalised Message", "Chocolate", "Balloon"],
         leadTimeHours: 24,
-
         image: IMAGES.scarletMoments,
         imageBase: "",
         defaultImage: IMAGES.scarletMoments,
@@ -312,15 +277,8 @@ export const BOUQUETS = [
             Flame: IMAGES.scarletMoments,
             White: IMAGES.scarletMoments,
         },
-
         featured: false,
     },
-
-    // ==========================
-    // BEAUTY BASKET COLLECTION
-    // Single image provided for now (used for all colours and sizes)
-    // Brand is a dedicated required selection
-    // ==========================
 
     {
         id: "beauty-basket-collection",
@@ -338,7 +296,6 @@ export const BOUQUETS = [
         occasions: ["Birthday", "Love", "Celebration", "Gift", "Just Because"],
         addons: ["Personalised Message", "Chocolate", "Balloon", "Ribbon"],
         leadTimeHours: 24,
-
         image: IMAGES.beautyBasket,
         imageBase: "",
         defaultImage: IMAGES.beautyBasket,
@@ -349,14 +306,8 @@ export const BOUQUETS = [
             Brown: IMAGES.beautyBasket,
             Yellow: IMAGES.beautyBasket,
         },
-
         featured: false,
     },
-
-    // ==========================
-    // BABY BUSH COLLECTION
-    // Single image provided for now (used for all colours and sizes)
-    // ==========================
 
     {
         id: "baby-bush-collection",
@@ -372,7 +323,6 @@ export const BOUQUETS = [
         occasions: ["Birthday", "Celebration", "Gift", "Just Because"],
         addons: ["Personalised Message", "Ribbon", "Chocolate", "Balloon"],
         leadTimeHours: 24,
-
         image: IMAGES.babyBush,
         imageBase: "",
         defaultImage: IMAGES.babyBush,
@@ -383,7 +333,27 @@ export const BOUQUETS = [
             Pink: IMAGES.babyBush,
             Blue: IMAGES.babyBush,
         },
+        featured: false,
+    },
 
+    {
+        id: "bridesmaid-bouquets-collection",
+        name: "Bridesmaid Bouquets",
+        category: "Wedding Bouquets",
+        collection: "Bridesmaid Bouquets Collection",
+        shortDescription:
+            "Elegant bridesmaid bouquets finished with beautiful ribbon colour options to complement your wedding palette and bridal party styling.",
+        priceMin: 350,
+        priceMax: 600,
+        sizes: ["Small", "Standard", "Large"],
+        ribbonColors: ["Pink", "Nude", "White", "Green"],
+        requiredSelections: ["size", "ribbonColor"],
+        occasions: ["Wedding", "Bridal Party", "Celebration"],
+        addons: ["Personalised Ribbon", "Pearl Pins", "Gift Wrapping", "Message Card"],
+        leadTimeHours: 24,
+        image: IMAGES.bridesmaidBouquets,
+        imageBase: "",
+        defaultImage: IMAGES.bridesmaidBouquets,
         featured: false,
     },
 ];

@@ -372,6 +372,10 @@ function render() {
         .map((brand) => `<option value="${brand}" ${brand === i.brand ? "selected" : ""}>${brand}</option>`)
         .join("");
 
+      const ribbonColorOptions = (b?.ribbonColors || [])
+        .map((c) => `<option value="${c}" ${c === i.ribbonColor ? "selected" : ""}>${c}</option>`)
+        .join("");
+
       const addonOptions = (b?.addons || [])
         .map((a) => {
           const checked = (i.addons || []).includes(a) ? "checked" : "";
@@ -423,12 +427,17 @@ function render() {
                 </select>
               </div>
 
+              ${colorOptions
+          ? `
               <div class="field">
                 <label class="muted field-label">Color</label>
                 <select class="selectInput" data-field="color" data-key="${i.key}">
-                  ${colorOptions || `<option value="">N/A</option>`}
+                  ${colorOptions}
                 </select>
               </div>
+              `
+          : ""
+        }
 
               ${brandOptions
           ? `
@@ -436,6 +445,18 @@ function render() {
                 <label class="muted field-label">Brand</label>
                 <select class="selectInput" data-field="brand" data-key="${i.key}">
                   ${brandOptions}
+                </select>
+              </div>
+              `
+          : ""
+        }
+
+              ${ribbonColorOptions
+          ? `
+              <div class="field">
+                <label class="muted field-label">Ribbon colour</label>
+                <select class="selectInput" data-field="ribbonColor" data-key="${i.key}">
+                  ${ribbonColorOptions}
                 </select>
               </div>
               `

@@ -210,7 +210,6 @@ function wireQuickAdd(container) {
       const b = BOUQUETS.find((x) => x.id === id);
       if (!b) return;
 
-      // Products with requiredSelections should go to detail page for proper selection
       if (hasRequiredSelections(b)) {
         window.location.href = `./bouquet.html?id=${encodeURIComponent(b.id)}`;
         return;
@@ -234,6 +233,7 @@ function wireQuickAdd(container) {
         size,
         color,
         brand: null,
+        ribbonColor: null,
         image,
         addons: [],
         qty: 1,
@@ -246,7 +246,7 @@ function wireQuickAdd(container) {
 }
 
 /* ------------------------------
-   Home featured (if present)
+   Home featured
 -------------------------------- */
 
 const featuredGrid = $("#featuredGrid");
@@ -258,7 +258,7 @@ if (featuredGrid) {
 }
 
 /* ------------------------------
-   Catalog page: Search / Filter / Sort
+   Catalog page
 -------------------------------- */
 
 const catalogGrid = $("#catalogGrid");
@@ -300,6 +300,7 @@ function applyFiltersAndSort() {
         ...(b.colors || []),
         ...(b.sizes || []),
         ...(b.brands || []),
+        ...(b.ribbonColors || []),
         ...(b.occasions || []),
       ]
         .map(safeLower)

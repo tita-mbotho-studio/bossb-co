@@ -24,7 +24,14 @@ function normaliseAddons(addons) {
 
 function stableKey(item) {
   const addons = normaliseAddons(item.addons).join("|");
-  return [item.id, item.size || "", item.color || "", item.brand || "", addons].join("::");
+  return [
+    item.id,
+    item.size || "",
+    item.color || "",
+    item.brand || "",
+    item.ribbonColor || "",
+    addons,
+  ].join("::");
 }
 
 function normaliseStringOrNull(v) {
@@ -56,6 +63,7 @@ export function addToCart(item) {
     size: item.size ? String(item.size) : null,
     color: item.color ? String(item.color) : null,
     brand: item.brand ? String(item.brand) : null,
+    ribbonColor: item.ribbonColor ? String(item.ribbonColor) : null,
     image: item.image ? String(item.image) : null,
     addons: normaliseAddons(item.addons),
     qty: Math.max(1, Number(item.qty) || 1),
@@ -90,11 +98,6 @@ export function removeItem(key) {
   writeCart(cart);
 }
 
-/**
- * Update an existing cart line item by key.
- * IMPORTANT: size/color/brand/addons affect the stable key.
- * So we recompute the key and merge if it collides with another line item.
- */
 export function updateItem(key, patch) {
   const cart = readCart();
   const idx = cart.findIndex((x) => x.key === key);
@@ -110,6 +113,7 @@ export function updateItem(key, patch) {
   nextCandidate.size = normaliseStringOrNull(nextCandidate.size);
   nextCandidate.color = normaliseStringOrNull(nextCandidate.color);
   nextCandidate.brand = normaliseStringOrNull(nextCandidate.brand);
+  nextCandidate.ribbonColor = normaliseStringOrNull(nextCandidate.ribbonColor);
   nextCandidate.addons = normaliseAddons(nextCandidate.addons);
   nextCandidate.image = normaliseStringOrNull(nextCandidate.image);
 
