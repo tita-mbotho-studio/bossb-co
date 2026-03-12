@@ -174,6 +174,10 @@ const IMAGES = {
     // --- Beauty Basket Collection ---
     beautyBasket:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/beauty_basket_collection/beauty_basket_collection_a.jpeg",
+
+    // --- Baby Bush Collection ---
+    babyBush:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a_.jpeg",
 };
 
 export const BOUQUETS = [
@@ -344,6 +348,40 @@ export const BOUQUETS = [
             Red: IMAGES.beautyBasket,
             Brown: IMAGES.beautyBasket,
             Yellow: IMAGES.beautyBasket,
+        },
+
+        featured: false,
+    },
+
+    // ==========================
+    // BABY BUSH COLLECTION
+    // Single image provided for now (used for all colours and sizes)
+    // ==========================
+
+    {
+        id: "baby-bush-collection",
+        name: "Baby Bush",
+        category: "Baby Bushes",
+        collection: "Baby Bush Collection",
+        shortDescription:
+            "A charming and colourful floral bush arrangement designed for thoughtful gifting and sweet celebratory moments.",
+        priceMin: 800,
+        priceMax: 1200,
+        sizes: ["Small", "Standard", "Large"],
+        colors: ["Red", "Yellow", "Brown", "Pink", "Blue"],
+        occasions: ["Birthday", "Celebration", "Gift", "Just Because"],
+        addons: ["Personalised Message", "Ribbon", "Chocolate", "Balloon"],
+        leadTimeHours: 24,
+
+        image: IMAGES.babyBush,
+        imageBase: "",
+        defaultImage: IMAGES.babyBush,
+        colorImages: {
+            Red: IMAGES.babyBush,
+            Yellow: IMAGES.babyBush,
+            Brown: IMAGES.babyBush,
+            Pink: IMAGES.babyBush,
+            Blue: IMAGES.babyBush,
         },
 
         featured: false,
