@@ -140,44 +140,44 @@ export function getBouquetImageForSelection(bouquet, { color = null, size = null
 const IMAGES = {
     // --- Serenity Wreath Collection (Funeral Wreaths) ---
     eternalHonourWreath:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_a.webp",
 
     gentleGoodbyeWreath:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_b.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/serenity_wealth_collection/serenity_wreath_collection_b.webp",
 
     // --- Rośe Dreams Collection (Rose Boxes) ---
     roseDreamsSmall:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_a.jpeg?updatedAt=1771671991144",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_a.webp?updatedAt=1771671991144",
 
     roseDreamsMedium:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_b.jpeg?updatedAt=1771671991965",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_b.webp?updatedAt=1771671991965",
 
     roseDreamsLarge:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_c.jpeg?updatedAt=1771671992519",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/rose_dream_collection/ro%C5%9Be_dreams_collection_c.webp?updatedAt=1771671992519",
 
     // --- Scarlet Moments Collection ---
     scarletMoments:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/scarlet_moments_collection/scarlet_moments_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/scarlet_moments_collection/scarlet_moments_collection_a.webp",
 
     // --- Beauty Basket Collection ---
     beautyBasket:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/beauty_basket_collection/beauty_basket_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/beauty_basket_collection/beauty_basket_collection_a.webp",
 
     // --- Baby Bush Collection ---
     babyBush:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a_.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a.webp",
 
     // --- Bridesmaid Bouquets Collection ---
     bridesmaidBouquets:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/bridesmaid_bouquets_collection/bridesmaid_bouquets_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/bridesmaid_bouquets_collection/bridesmaid_bouquets_collection_a.webp",
 
     // --- Heart of Gold Collection ---
     heartOfGold:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/heart_of_gold_collection/heart_of_gold_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/heart_of_gold_collection/heart_of_gold_collection_a.webp",
 
     // --- White Cluster Mix Collection ---
     whiteClusterMix:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/white_cluster_mix_collection/white_cluster_mix_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/white_cluster_mix_collection/white_cluster_mix_collection_a.webp",
 };
 
 export const BOUQUETS = [
