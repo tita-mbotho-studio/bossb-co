@@ -174,6 +174,10 @@ const IMAGES = {
     // --- Heart of Gold Collection ---
     heartOfGold:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/heart_of_gold_collection/heart_of_gold_collection_a.jpeg",
+
+    // --- White Cluster Mix Collection ---
+    whiteClusterMix:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/white_cluster_mix_collection/white_cluster_mix_collection_a.jpeg",
 };
 
 export const BOUQUETS = [
@@ -382,6 +386,31 @@ export const BOUQUETS = [
             White: IMAGES.heartOfGold,
             Red: IMAGES.heartOfGold,
             Nude: IMAGES.heartOfGold,
+        },
+        featured: false,
+    },
+
+    {
+        id: "white-cluster-mix-collection",
+        name: "White Cluster Mix",
+        category: "Floral Arrangements",
+        collection: "White Cluster Mix Collection",
+        shortDescription:
+            "A versatile floral arrangement with soft clustered styling, available in elegant colour options for meaningful gifting and celebration.",
+        priceMin: 700,
+        priceMax: 2800,
+        sizes: ["Small", "Standard", "Large"],
+        colors: ["Red", "White", "Pink"],
+        occasions: ["Love", "Celebration", "Gift", "Anniversary", "Just Because"],
+        addons: ["Personalised Message", "Ribbon", "Chocolate", "Balloon"],
+        leadTimeHours: 24,
+        image: IMAGES.whiteClusterMix,
+        imageBase: "",
+        defaultImage: IMAGES.whiteClusterMix,
+        colorImages: {
+            Red: IMAGES.whiteClusterMix,
+            White: IMAGES.whiteClusterMix,
+            Pink: IMAGES.whiteClusterMix,
         },
         featured: false,
     },
