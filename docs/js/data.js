@@ -165,7 +165,7 @@ const IMAGES = {
 
     // --- Baby Bush Collection ---
     babyBush:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a_.jpeg",
 
     // --- Bridesmaid Bouquets Collection ---
     bridesmaidBouquets:
