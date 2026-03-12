@@ -165,11 +165,15 @@ const IMAGES = {
 
     // --- Baby Bush Collection ---
     babyBush:
-        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a_.jpeg",
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/baby_bush_collection/baby_bush_collection_a.jpeg",
 
     // --- Bridesmaid Bouquets Collection ---
     bridesmaidBouquets:
         "https://ik.imagekit.io/kw8awoqvwi/bossb-co/bridesmaid_bouquets_collection/bridesmaid_bouquets_collection_a.jpeg",
+
+    // --- Heart of Gold Collection ---
+    heartOfGold:
+        "https://ik.imagekit.io/kw8awoqvwi/bossb-co/heart_of_gold_collection/heart_of_gold_collection_a.jpeg",
 };
 
 export const BOUQUETS = [
@@ -354,6 +358,31 @@ export const BOUQUETS = [
         image: IMAGES.bridesmaidBouquets,
         imageBase: "",
         defaultImage: IMAGES.bridesmaidBouquets,
+        featured: false,
+    },
+
+    {
+        id: "heart-of-gold-collection",
+        name: "Heart of Gold",
+        category: "Floral Arrangements",
+        collection: "Heart of Gold Collection",
+        shortDescription:
+            "A warm and elegant floral arrangement designed to express love, gratitude, and heartfelt celebration in timeless tones.",
+        priceMin: 800,
+        priceMax: 1400,
+        sizes: ["Small", "Standard", "Large"],
+        colors: ["White", "Red", "Nude"],
+        occasions: ["Love", "Celebration", "Gift", "Anniversary", "Just Because"],
+        addons: ["Personalised Message", "Ribbon", "Chocolate", "Balloon"],
+        leadTimeHours: 24,
+        image: IMAGES.heartOfGold,
+        imageBase: "",
+        defaultImage: IMAGES.heartOfGold,
+        colorImages: {
+            White: IMAGES.heartOfGold,
+            Red: IMAGES.heartOfGold,
+            Nude: IMAGES.heartOfGold,
+        },
         featured: false,
     },
 ];
